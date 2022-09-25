@@ -1,0 +1,105 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/styles.css" />
+    <title>Image Search Abstraction Layer</title>
+  </head>
+  <body>
+    <section class="container">
+      <h1>Image Search Abstraction Layer</h1>
+      <div class="form-wrap">
+        <div class="form">
+          <label for="">Type of Search</label>
+          <select
+            name="typeSearch"
+            id="typeSearch"
+            onchange="typeSearch(value); changeUrl()"
+          >
+            <option value="search" selected>Search for Image</option>
+            <option value="recent">See Recent Searches</option>
+          </select>
+        </div>
+        <div class="form">
+          <label for="">Query</label>
+          <input
+            type="text"
+            autofocus
+            placeholder="Search image.."
+            name="query"
+            id="query"
+            onchange="changeUrl()"
+          />
+        </div>
+        <div class="form">
+          <label for="">Page</label>
+          <input
+            type="number"
+            name="page"
+            id="page"
+            minlength="1"
+            value="1"
+            placeholder="Input number.."
+            onchange="changeUrl()"
+          />
+        </div>
+        <div class="form">
+          <label for="">Image Size</label>
+          <select name="size" id="size" onchange="changeUrl()">
+            <option value="All">All</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+            <option value="wallpaper">Wallpaper</option>
+          </select>
+        </div>
+      </div>
+      <p>Here's your URL :</p>
+      <a href="" id="url" target="_blank">/</a>
+    </section>
+
+    <script>
+      let tos = document.getElementById('typeSearch');
+      let query = document.getElementById('query');
+      let page = document.getElementById('page');
+      let size = document.getElementById('size');
+      let newUrl = document.getElementById('url');
+      let url = window.location.protocol + '//' + window.location.host;
+
+      function typeSearch(value) {
+        if (value === 'recent') {
+          query.setAttribute('disabled', '');
+          page.setAttribute('disabled', '');
+          size.setAttribute('disabled', '');
+        } else {
+          query.removeAttribute('disabled');
+          page.removeAttribute('disabled');
+          size.removeAttribute('disabled');
+        }
+      }
+
+      function path(string) {
+        newUrl.innerHTML = (url + string).trim();
+        newUrl.setAttribute('href', (url + string).trim());
+      }
+
+      path('');
+
+      function changeUrl() {
+        if (tos.value === 'recent') {
+          path('/recent');
+        } else {
+          path('');
+          let tmp = '/query/' + query.value + '?page=' + page.value;
+          if (query.value) {
+            path(tmp);
+            if (size.value !== 'All') {
+              path(tmp + '&size=' + size.value);
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
