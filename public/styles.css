@@ -23,6 +23,16 @@ h1 {
   text-align: center;
   color: rgb(33, 173, 249);
 }
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+}
+.radio-group label {
+  margin-bottom: 4px;
+}
+
 .form-wrap .form {
   display: flex;
   flex-direction: row;
@@ -33,7 +43,8 @@ h1 {
   font-size: 1rem;
 }
 
-.form input,
+.form input[type='text'],
+.form input[type='number'],
 .form select {
   width: 25vw;
   padding: 1rem;

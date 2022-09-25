@@ -12,14 +12,27 @@
       <div class="form-wrap">
         <div class="form">
           <label for="">Type of Search</label>
-          <select
-            name="typeSearch"
-            id="typeSearch"
-            onchange="typeSearch(value); changeUrl()"
-          >
-            <option value="search" selected>Search for Image</option>
-            <option value="recent">See Recent Searches</option>
-          </select>
+
+          <div class="radio-group">
+            <label for=""
+              ><input
+                type="radio"
+                value="search"
+                onchange="typeSearch(value); changeUrl()"
+                id="search"
+                name="typeSearch"
+                checked
+              />Search for Image</label
+            >
+            <label for=""
+              ><input
+                type="radio"
+                value="recent"
+                onchange="typeSearch(value); changeUrl()"
+                name="typeSearch"
+              />See Recent Searches</label
+            >
+          </div>
         </div>
         <div class="form">
           <label for="">Query</label>
@@ -60,7 +73,7 @@
     </section>
 
     <script>
-      let tos = document.getElementById('typeSearch');
+      let search;
       let query = document.getElementById('query');
       let page = document.getElementById('page');
       let size = document.getElementById('size');
@@ -69,10 +82,12 @@
 
       function typeSearch(value) {
         if (value === 'recent') {
+          search = value;
           query.setAttribute('disabled', '');
           page.setAttribute('disabled', '');
           size.setAttribute('disabled', '');
         } else {
+          search = value;
           query.removeAttribute('disabled');
           page.removeAttribute('disabled');
           size.removeAttribute('disabled');
@@ -87,9 +102,7 @@
       path('');
 
       function changeUrl() {
-        if (tos.value === 'recent') {
-          path('/recent');
-        } else {
+        if (search !== 'recent') {
           path('');
           let tmp = '/query/' + query.value + '?page=' + page.value;
           if (query.value) {
@@ -98,6 +111,8 @@
               path(tmp + '&size=' + size.value);
             }
           }
+        } else {
+          path('/recent');
         }
       }
     </script>
